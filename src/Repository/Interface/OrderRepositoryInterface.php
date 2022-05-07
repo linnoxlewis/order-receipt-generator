@@ -3,11 +3,11 @@
 namespace App\Repository\Interface;
 
 /**
- * Interface OrderRepositoryInterface
+ * Interface OrderRepositoryInterface.
  *
  * @package App\Repository
  */
 interface OrderRepositoryInterface extends BaseInterface
 {
-    public function list(int $printerId, int $limit, int $offset): array;
+    public function list($printer, int $limit, int $offset): array;
 }

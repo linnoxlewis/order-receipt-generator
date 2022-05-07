@@ -12,11 +12,13 @@
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
+        "mpdf/mpdf": "^8.1",
         "nelmio/cors-bundle": "^2.2",
         "php-amqplib/rabbitmq-bundle": "^2.11",
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "sensio/framework-extra-bundle": "^6.2",
+        "spipu/html2pdf": "^5.2",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/flex": "^2.1",
@@ -28,7 +30,8 @@
         "symfony/runtime": "6.0.*",
         "symfony/serializer": "6.0.*",
         "symfony/validator": "6.0.*",
-        "symfony/yaml": "6.0.*"
+        "symfony/yaml": "6.0.*",
+        "twig/twig": "^3.0"
     },
     "config": {
         "allow-plugins": {

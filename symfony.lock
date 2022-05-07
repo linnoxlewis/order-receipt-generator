@@ -86,6 +86,12 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "mpdf/mpdf": {
+        "version": "v8.1.1"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.11.0"
+    },
     "nelmio/cors-bundle": {
         "version": "2.2",
         "recipe": {
@@ -123,6 +129,9 @@
             "src/Consumer/.gitignore"
         ]
     },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
     "phpseclib/phpseclib": {
         "version": "3.0.14"
     },
@@ -134,6 +143,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/log": {
         "version": "3.0.0"
@@ -167,6 +179,12 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "setasign/fpdi": {
+        "version": "v2.3.6"
+    },
+    "spipu/html2pdf": {
+        "version": "v5.2.5"
     },
     "symfony/cache": {
         "version": "v6.0.6"
@@ -346,5 +364,11 @@
     },
     "symfony/yaml": {
         "version": "v6.0.3"
+    },
+    "tecnickcom/tcpdf": {
+        "version": "6.4.4"
+    },
+    "twig/twig": {
+        "version": "v3.3.10"
     }
 }

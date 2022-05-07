@@ -38,19 +38,44 @@ class Order extends Entity
     /**
      * @ORM\ManyToOne(targetEntity="App\Model\Entity\Printer", inversedBy="orders")
      */
-    private $printer;
+    private ?Printer $printer;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Model\Entity\Check", inversedBy="check")
      */
-    private $check;
+    private ?Check $check;
 
+    private int $printerId;
     /**
      * Order constructor.
      */
     public function __construct()
     {
         $this->id = Uuid::uuid6();
+    }
+
+    /**
+     * Get printer Id.
+     *
+     * @return int
+     */
+    public function getPrinterId(): int
+    {
+        return $this->printerId;
+    }
+
+    /**
+     * Set order Id.
+     *
+     * @param int $id printer id
+     *
+     * @return Order
+     */
+    public function setPrinterId(int $id): static
+    {
+        $this->printerId= $id;
+
+        return $this;
     }
 
     /**

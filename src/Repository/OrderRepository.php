@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Model\Entity\Order;
+use App\Model\Entity\Printer;
 use App\Repository\Interface\OrderRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Order repository model
+ * Order repository model.
  *
  * Class OrderRepository
  *
@@ -15,24 +16,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderRepository extends Repository implements OrderRepositoryInterface
 {
+    /**
+     * OrderRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
     }
 
     /**
-     * Get order list by printer id
+     * Get order list by printer id.
      *
-     * @param int $printerId printer id
-     * @param int $limit limit
-     * @param int $offset offset
+     * @param Printer $printer printer model
+     * @param int     $limit limit
+     * @param int     $offset offset
      *
      * @return Order[]
      */
-    public function list(int $printerId, int $limit, int $offset): array
+    public function list($printer, int $limit, int $offset): array
     {
         return $this->findBy(
-            ['printerId' => $printerId],
+            ['printer' => $printer],
             null,
             $limit,
             $offset

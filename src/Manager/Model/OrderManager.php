@@ -16,19 +16,66 @@ use App\Service\Serializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
+/**
+ * Manager for orders.
+ *
+ * Class OrderManager.
+ *
+ * @package App\Manager\Model
+ */
 class OrderManager implements OrderManagerInterface
 {
+    /**
+     * Order repository.
+     *
+     * @var OrderRepositoryInterface
+     */
     private OrderRepositoryInterface $repo;
+
+    /**
+     * Printer repository.
+     *
+     * @var PrinterRepositoryInterface
+     */
     private PrinterRepositoryInterface $printerRepo;
+
+    /**
+     * Logger.
+     *
+     * @var LoggerInterface
+     */
     private LoggerInterface $logger;
+
+    /**
+     * Serializer service.
+     *
+     * @var Serializer
+     */
     private Serializer $serializer;
+
+    /**
+     * Event creating check after order was created.
+     *
+     * @var EventDispatcherInterface
+     */
     private EventDispatcherInterface $eventDispatcher;
 
+    /**
+     * OrderManager constructor.
+     *
+     * @param OrderRepositoryInterface $repo
+     * @param PrinterRepositoryInterface $printerRepo
+     * @param LoggerInterface $logger
+     * @param Serializer $serializer
+     * @param EventDispatcherInterface $eventDispatcher
+     */
     public function __construct(OrderRepositoryInterface $repo,
                                 PrinterRepositoryInterface $printerRepo,
                                 LoggerInterface $logger,
                                 Serializer $serializer,
-                                EventDispatcherInterface $eventDispatcher)
+                                EventDispatcherInterface $eventDispatcher,
+    )
+
     {
         $this->repo = $repo;
         $this->printerRepo = $printerRepo;
@@ -38,7 +85,7 @@ class OrderManager implements OrderManagerInterface
     }
 
     /**
-     * Create new Order
+     * Create new Order.
      *
      * @param string $info
      * @param int $amount
@@ -52,15 +99,20 @@ class OrderManager implements OrderManagerInterface
     {
         try {
             $printer = $this->printerRepo->getById($printerId);
+            if (empty($printer)) {
+                throw new ManagerException("Printer not found");
+            }
+
             $entity = new Order();
             $entity->setInfo($info)
                 ->setAmount($amount)
                 ->setPrinter($printer);
+
             $order = $this->repo->createEntity($entity);
             $this->logger->info('Create new order:' . $order->getId());
 
             $orderCreateEvent = new CreateOrderEvent($order);
-            $this->eventDispatcher->dispatch($orderCreateEvent,$orderCreateEvent::NAME);
+            $this->eventDispatcher->dispatch($orderCreateEvent, $orderCreateEvent::NAME);
 
             return $order;
         } catch (EntityNotFoundException $ex) {
@@ -72,31 +124,48 @@ class OrderManager implements OrderManagerInterface
     }
 
     /**
-     * Get order list by printer
+     * Get order list by printer.
      *
-     * @param int $printerId
-     * @param int $page
-     * @param int $limit
+     * @param int $printerId id printer.
+     * @param int $page      current page.
+     * @param int $limit     max limit view value.
      *
      * @return Order[]
-     * @throws ExceptionInterface
+     * @throws ExceptionInterface|ManagerException
      */
     public function getOrderList(int $printerId, int $page, int $limit): array
     {
-        $result = [];
         $offset = ($page == 1) ? 1 : ($page - 1) * $limit;
 
-        $list = $this->repo->list($printerId, $limit, $offset);
-        if (!empty($list)) {
-            $fields = ["id", "amount", "printerId","info"];
-            $callback = ["info" => function ($innner) {
-                return json_decode($innner, true);
-            }];
-            foreach ($list as $data){
-                $result[] = $this->serializer->normalize($data,null,$fields,$callback);
-            }
+        $printer = $this->printerRepo->getById($printerId);
+        if (empty($printer)) {
+            throw new ManagerException("Printer not found");
         }
 
-        return  $result;
+        $list = $this->repo->list($printer, $limit, $offset);
+
+        return (empty($list)) ? [] : $this->serializeList($list);
+    }
+
+    /**
+     * Serialize order list to array.
+     *
+     * @param $list
+     *
+     * @return array
+     * @throws ExceptionInterface
+     */
+    protected function serializeList($list): array
+    {
+        $result = [];
+        $fields = ["id", "amount", "printerId", "info"];
+        $callback = ["info" => function ($innner) {
+            return json_decode($innner, true);
+        }];
+        foreach ($list as $data) {
+            $result[] = $this->serializer->normalize($data, null, $fields, $callback);
+        }
+
+        return $result;
     }
 }

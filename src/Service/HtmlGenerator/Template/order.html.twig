@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check for order</title>
+</head>
+<body>
+    <h3 class="title" align="center">Order N {{order.id}}</h3>
+    <table class="table">
+        <tr>
+           <th>Name</th><th>Count</th><th>Price</th>
+        </tr>
+        {% for infoValue in info %}
+            <tr>
+                <td>{{infoValue.name}}</td>
+                <td>{{infoValue.count}}</td>
+                <td>{{infoValue.price}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p><h3>Total:{{order.amount}}</h3></p>
+    <p><h3>Printer:{{order.printer.name}}</h3></p>
+</body>
+</html>
+
+<style>
+    .table {
+        width: 100%;
+        margin-bottom: 20px;
+        border: 15px solid #F2F8F8;
+        border-top: 5px solid #F2F8F8;
+        border-collapse: collapse;
+    }
+    .table th {
+        font-weight: bold;
+        padding: 5px;
+        background: #F2F8F8;
+        border: none;
+        border-bottom: 5px solid #F2F8F8;
+    }
+    .table td {
+        padding: 5px;
+        border: none;
+        border-bottom: 5px solid #F2F8F8;
+    }
+
+    .title h3:after {
+        content: "";
+        position: absolute;
+        background: rgb(81, 227, 213);
+        height: 2px;
+        width: 100px;
+        top: 115%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+    }
+
+    .title h3 :before {
+        content: "";
+        position: absolute;
+        background: rgb(81, 227, 213);
+        height: 2px;
+        width: 20px;
+        top: 135%;
+        margin: 0 auto;
+        left: 0;
+        right: 0
+    }
+</style>
