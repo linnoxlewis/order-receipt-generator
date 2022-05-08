@@ -36,11 +36,11 @@ class OrderRepository extends Repository implements OrderRepositoryInterface
      */
     public function list($printer, int $limit, int $offset): array
     {
-        return $this->findBy(
+       return $this->findBy(
             ['printer' => $printer],
             null,
-            $limit,
-            $offset
+           $limit,
+           $offset -1
         );
     }
 }

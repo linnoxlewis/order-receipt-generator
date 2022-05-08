@@ -2,7 +2,9 @@
 
 namespace App\Service\Convertator;
 
-use Spipu\Html2Pdf\Html2Pdf;
+use App\Service\Convertator\Interface\ConvertInterface;
+use Dompdf\Dompdf;
+use Psr\Log\LoggerInterface;
 
 /**
  * Convert class to pdf
@@ -11,14 +13,14 @@ use Spipu\Html2Pdf\Html2Pdf;
  *
  * @package App\Service\Convertator
  */
-class Convert
+class Convert implements ConvertInterface
 {
     /**
      * Base convert server.
      *
-     * @var Html2Pdf
+     * @var Dompdf
      */
-    protected Html2Pdf $htmlPdfService;
+    protected Dompdf $htmlPdfService;
 
     /**
      * data to pdf.
@@ -28,12 +30,22 @@ class Convert
     protected string $data;
 
     /**
+     * @var string
+     */
+    protected string $webDir;
+
+    protected LoggerInterface $logger;
+
+    /**
      * Convert constructor.
      */
-    public function __construct()
+    public function __construct(string $webDir,
+                                Dompdf $htmlPdfService,
+                                LoggerInterface $logger)
     {
-        $this->htmlPdfService = new Html2Pdf();
-
+        $this->htmlPdfService = $htmlPdfService;
+        $this->webDir = $webDir;
+        $this->logger = $logger;
     }
 
     /**
@@ -43,7 +55,7 @@ class Convert
      *
      * @return Convert
      */
-    public function setData(string $data) :static
+    public function setData(string $data): static
     {
         $this->data = $data;
 
@@ -67,15 +79,19 @@ class Convert
      *
      * @return bool
      */
-    public function toPdf(string $pdfName) : bool
+    public function toPdf(string $pdfName): bool
     {
         try {
-            $this->htmlPdfService->writeHTML($this->data);
-            $this->htmlPdfService->output($pdfName . '.pdf','D');
+            $this->htmlPdfService->loadHtml($this->data);
+            $this->htmlPdfService->setPaper('A4', 'landscape');
+            $this->htmlPdfService->render();
+
+            $pdfFile = $this->htmlPdfService->output();
+            file_put_contents($this->webDir . '/' . $pdfName . '.pdf', $pdfFile);
 
             return true;
         } catch (\Throwable $ex) {
-            var_dump($ex->getMessage());
+            $this->logger->error($ex->getMessage());
 
             return false;
         }

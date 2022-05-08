@@ -73,9 +73,8 @@ class OrderManager implements OrderManagerInterface
                                 PrinterRepositoryInterface $printerRepo,
                                 LoggerInterface $logger,
                                 Serializer $serializer,
-                                EventDispatcherInterface $eventDispatcher,
+                                EventDispatcherInterface $eventDispatcher
     )
-
     {
         $this->repo = $repo;
         $this->printerRepo = $printerRepo;
@@ -136,12 +135,10 @@ class OrderManager implements OrderManagerInterface
     public function getOrderList(int $printerId, int $page, int $limit): array
     {
         $offset = ($page == 1) ? 1 : ($page - 1) * $limit;
-
         $printer = $this->printerRepo->getById($printerId);
         if (empty($printer)) {
             throw new ManagerException("Printer not found");
         }
-
         $list = $this->repo->list($printer, $limit, $offset);
 
         return (empty($list)) ? [] : $this->serializeList($list);

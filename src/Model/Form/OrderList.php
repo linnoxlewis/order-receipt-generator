@@ -27,7 +27,7 @@ class OrderList
      *
      * @var int
      *
-     * @Assert\Type(type ="integer",
+     * @Assert\Type(type ="int",
      *  message="{value} is an invalid format"
      * )
      * /**
@@ -44,8 +44,8 @@ class OrderList
      *
      * @var int
      *
-     * @Assert\Type(type ="integer",
-     *  message="{value} is an invalid format",
+     * * @Assert\Type(type ="int",
+     *  message="{value} is an invalid format"
      * )
      *
      * @Assert\Range(
@@ -57,13 +57,13 @@ class OrderList
     protected $page;
 
 
-    public function __construct($printerId, $limit, $page)
+    public function __construct($printerId,$page,$limit)
     {
         $this->printerId = (int)$printerId;
         $this->limit = empty($this->limit)
             ? 10
             : $limit;
-        $this->page = empty($page) ? 1 : $page;
+        $this->page = empty($page) ? 1 : (int)$page;
     }
 
     /**

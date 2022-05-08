@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Convertator;
+namespace App\Service\Convertator\Interface;
 
 /**
  * Interface ConvertInterface
@@ -8,5 +8,5 @@ namespace App\Service\Convertator;
  */
 interface ConvertInterface
 {
-    public function toPdf();
+    public function toPdf(string $pdfName);
 }
