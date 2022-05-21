@@ -6,6 +6,7 @@ use App\Event\CreateOrderEvent;
 use App\Manager\Exception\ManagerException;
 use App\Manager\Interface\OrderManagerInterface;
 use App\Model\Entity\Entity;
+use App\Model\Entity\EntityInterface;
 use App\Model\Entity\Order;
 use App\Repository\Interface\OrderRepositoryInterface;
 use App\Repository\Interface\PrinterRepositoryInterface;
@@ -69,11 +70,11 @@ class OrderManager implements OrderManagerInterface
      * @param Serializer $serializer
      * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(OrderRepositoryInterface $repo,
+    public function __construct(OrderRepositoryInterface   $repo,
                                 PrinterRepositoryInterface $printerRepo,
-                                LoggerInterface $logger,
-                                Serializer $serializer,
-                                EventDispatcherInterface $eventDispatcher
+                                LoggerInterface            $logger,
+                                Serializer                 $serializer,
+                                EventDispatcherInterface   $eventDispatcher
     )
     {
         $this->repo = $repo;
@@ -94,13 +95,10 @@ class OrderManager implements OrderManagerInterface
      * @throws Exception
      * @throws ManagerException
      */
-    public function createOrder(string $info, int $amount, int $printerId): Entity
+    public function createOrder(string $info, int $amount, int $printerId): EntityInterface
     {
         try {
             $printer = $this->printerRepo->getById($printerId);
-            if (empty($printer)) {
-                throw new ManagerException("Printer not found");
-            }
 
             $entity = new Order();
             $entity->setInfo($info)
@@ -118,7 +116,7 @@ class OrderManager implements OrderManagerInterface
             throw new ManagerException("Printer $printerId not found");
         } catch (Exception $ex) {
             $this->logger->error("Error create order:" . $ex->getMessage());
-            throw new Exception($ex->getMessage());
+            throw $ex;
         }
     }
 
@@ -126,22 +124,26 @@ class OrderManager implements OrderManagerInterface
      * Get order list by printer.
      *
      * @param int $printerId id printer.
-     * @param int $page      current page.
-     * @param int $limit     max limit view value.
+     * @param int $page current page.
+     * @param int $limit max limit view value.
      *
      * @return Order[]
      * @throws ExceptionInterface|ManagerException
      */
     public function getOrderList(int $printerId, int $page, int $limit): array
     {
-        $offset = ($page == 1) ? 1 : ($page - 1) * $limit;
-        $printer = $this->printerRepo->getById($printerId);
-        if (empty($printer)) {
-            throw new ManagerException("Printer not found");
+        try {
+            $offset = ($page == 1) ? 1 : ($page - 1) * $limit;
+            $printer = $this->printerRepo->getById($printerId);
+            $list = $this->repo->list($printer, $limit, $offset);
+            
+            return (empty($list)) ? [] : $this->serializeList($list);
+        } catch (EntityNotFoundException $ex) {
+            throw new ManagerException("Printer $printerId not found");
+        } catch (Exception $ex) {
+            $this->logger->error("Error create order:" . $ex->getMessage());
+            throw $ex;
         }
-        $list = $this->repo->list($printer, $limit, $offset);
-
-        return (empty($list)) ? [] : $this->serializeList($list);
     }
 
     /**

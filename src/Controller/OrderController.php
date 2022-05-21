@@ -67,8 +67,9 @@ class OrderController extends BaseApiController
             );
 
             return $this->json(ApiResponse::successResponse($list));
+        } catch (ManagerException|BadRequestException $ex) {
+            return $this->json(ApiResponse::badRequestResponse($ex->getMessage()), 400);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return $this->json(ApiResponse::serverErrorResponse(), 500);
         }
     }

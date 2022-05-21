@@ -3,6 +3,7 @@ namespace App\Manager\Model;
 
 use App\Manager\Interface\PrinterManagerInterface;
 use App\Manager\Exception\ManagerException;
+use App\Model\Entity\EntityInterface;
 use App\Model\Entity\Printer;
 use App\Repository\Interface\CheckRepositoryInterface;
 use App\Repository\Interface\PrinterRepositoryInterface;
@@ -65,7 +66,7 @@ class PrinterManager implements PrinterManagerInterface
      * @return Entity
      * @throws \Exception
      */
-    public function addPrinter(string $name, string $type): Entity
+    public function addPrinter(string $name, string $type): EntityInterface
     {
         $entity = new Printer();
         $entity->setName($name)->setType($type);
@@ -76,7 +77,7 @@ class PrinterManager implements PrinterManagerInterface
             return $printer;
         } catch (\Exception $ex) {
             $this->logger->error("Error create Printer $name:" . $ex->getMessage());
-            throw new \Exception($ex->getMessage());
+            throw $ex;
         }
     }
 
@@ -96,10 +97,10 @@ class PrinterManager implements PrinterManagerInterface
 
             return true;
         } catch (EntityNotFoundException $ex) {
-            throw new ManagerException($ex->getMessage());
-        } catch (\Throwable $ex) {
+            throw new ManagerException("Printer $printerId not found");
+        } catch (\Exception $ex) {
             $this->logger->error("Delete printer $printerId error:" . $ex->getMessage());
-            throw new \Exception($ex->getMessage());
+            throw $ex;
         }
     }
 
@@ -114,9 +115,9 @@ class PrinterManager implements PrinterManagerInterface
     public function getCompleteChecks(int $printerId): array {
         try {
            return $this->checkRepo->getCompletedChecksForPrinter($printerId);
-        } catch (\Throwable $ex) {
+        } catch (\Exception $ex) {
             $this->logger->error("Get $printerId checks error:" . $ex->getMessage());
-            throw new \Exception($ex->getMessage());
+            throw $ex;
         }
     }
 }

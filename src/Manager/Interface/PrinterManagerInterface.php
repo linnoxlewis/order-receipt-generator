@@ -2,7 +2,7 @@
 
 namespace App\Manager\Interface;
 
-use App\Model\Entity\Entity;
+use App\Model\Entity\EntityInterface;
 
 /**
  * Interface PrinterManagerInterface
@@ -11,7 +11,7 @@ use App\Model\Entity\Entity;
  */
 interface PrinterManagerInterface
 {
-    public function addPrinter(string $name, string $type): Entity;
+    public function addPrinter(string $name, string $type): EntityInterface;
 
     public function removePrinter(int $printerId): bool;
 

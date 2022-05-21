@@ -26,6 +26,7 @@ abstract class Repository extends ServiceEntityRepository
     {
         parent::__construct($registry, $this->getEntityClass());
     }
+
     /**
      * Get entity by id.
      *
@@ -37,16 +38,12 @@ abstract class Repository extends ServiceEntityRepository
      */
     public function getById(string|int $id): object
     {
-        try {
-            $entity = $this->_em->find($this->getEntityName(), $id);
-            if (empty($entity)) {
-                throw new EntityNotFoundException("Entity not found");
-            }
-
-            return $entity;
-        } catch (\Throwable $ex) {
-            throw new \Exception("Ex:" . $ex);
+        $entity = $this->_em->find($this->getEntityName(), $id);
+        if (empty($entity)) {
+            throw new EntityNotFoundException("Entity not found");
         }
+
+        return $entity;
     }
 
     /**
@@ -56,7 +53,8 @@ abstract class Repository extends ServiceEntityRepository
      *
      * @return Entity
      */
-    public function createEntity(EntityInterface $entity): Entity
+    public
+    function createEntity(EntityInterface $entity): Entity
     {
         $this->_em->persist($entity);
         $this->_em->flush();
