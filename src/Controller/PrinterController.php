@@ -13,10 +13,28 @@ use App\Model\Form\Printer as FormPrinter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller for printer.
+ *
+ * Class PrinterController
+ *
+ * @package App\Controller
+ */
 class PrinterController extends BaseApiController
 {
+    /**
+     * Printer manager.
+     *
+     * @var PrinterManagerInterface
+     */
     private PrinterManagerInterface $manager;
 
+    /**
+     * Constructor.
+     *
+     * @param ValidatorInterface $validator
+     * @param PrinterManagerInterface $manager
+     */
     public function __construct(ValidatorInterface $validator, PrinterManagerInterface $manager)
     {
         $this->manager = $manager;
@@ -24,7 +42,7 @@ class PrinterController extends BaseApiController
     }
 
     /**
-     * Endpoint for creating new Printer
+     * Endpoint for creating new Printer.
      *
      * @param Request $request
      *
@@ -49,17 +67,15 @@ class PrinterController extends BaseApiController
                 "id" => $printer->getId(),
                 "apikey" => $printer->getApiKey()
             ]));
-        } catch (ManagerException $ex) {
-            var_dump($ex->getMessage());
+        } catch (BadRequestException|ManagerException $ex) {
             return $this->json(ApiResponse::badRequestResponse($ex->getMessage()), 400);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return $this->json(ApiResponse::serverErrorResponse(), 500);
         }
     }
 
     /**
-     * Endpoint for delete Printer
+     * Endpoint for delete Printer.
      *
      * @param Request $request
      *
@@ -73,17 +89,15 @@ class PrinterController extends BaseApiController
             $this->manager->removePrinter($id);
 
             return $this->json(ApiResponse::successResponse());
-        } catch (ManagerException $ex) {
-            var_dump($ex->getMessage());
+        } catch (ManagerException|BadRequestException $ex) {
             return $this->json(ApiResponse::badRequestResponse($ex->getMessage()), 400);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return $this->json(ApiResponse::serverErrorResponse(), 500);
         }
     }
 
     /**
-     * Endpoint for get check for complete order
+     * Endpoint for getting check for complete order.
      *
      * @param Request $request
      *
@@ -96,11 +110,9 @@ class PrinterController extends BaseApiController
             $checks = $this->manager->getCompleteChecks($request->get('id'));
 
             return $this->json(ApiResponse::successResponse($checks));
-        } catch (ManagerException $ex) {
-            var_dump($ex->getMessage());
+        } catch (ManagerException|BadRequestException $ex) {
             return $this->json(ApiResponse::badRequestResponse($ex->getMessage()), 400);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return $this->json(ApiResponse::serverErrorResponse(), 500);
         }
     }

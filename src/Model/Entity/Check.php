@@ -45,11 +45,10 @@ class Check extends Entity
     /**
      * Check constructor.
      *
-     * @param Order $order
+     *
      */
-    public function __construct(Order $order)
+    public function __construct()
     {
-        $this->order = $order;
         $this->id = Uuid::uuid6();
     }
 

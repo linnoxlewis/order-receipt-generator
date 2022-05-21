@@ -33,7 +33,7 @@ class HtmlGenerator implements HtmlGeneratorInterface
     private $twig;
 
     /**
-     * Template path
+     * Template path.
      *
      * @var string
      */
@@ -79,6 +79,7 @@ class HtmlGenerator implements HtmlGeneratorInterface
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws \Exception
      */
     public function parseOrderToHtml(): string
     {
@@ -89,6 +90,7 @@ class HtmlGenerator implements HtmlGeneratorInterface
         }
 
         $info = json_decode($order->getInfo());
+
         return $this->twig->render('order.html.twig', [
             'order' =>$order,
             'info' => $info

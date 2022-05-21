@@ -2,6 +2,8 @@
 
 namespace App\Service\HtmlGenerator\Interface;
 
+use App\Model\Entity\Order;
+
 /**
  * Interface HtmlGeneratorInterface
  *
@@ -10,4 +12,6 @@ namespace App\Service\HtmlGenerator\Interface;
 interface HtmlGeneratorInterface
 {
     public function parseOrderToHtml(): string;
+
+    public function setOrder(Order $order): static;
 }

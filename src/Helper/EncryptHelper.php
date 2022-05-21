@@ -1,10 +1,6 @@
 <?php
 
-
 namespace App\Helper;
-
-
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class EncryptHelper
 {
@@ -26,6 +22,13 @@ class EncryptHelper
         return $randomString;
     }
 
+    /**
+     * Encrypt string param.
+     *
+     * @param string|null $string
+     *
+     * @return string
+     */
     public static function encryptKey(string $string = null): string
     {
         if (is_null($string)) {

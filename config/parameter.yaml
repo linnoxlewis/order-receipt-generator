@@ -1,2 +1,0 @@
-parameters:
-    webDir: '%env(DOCUMENT_ROOT)%'

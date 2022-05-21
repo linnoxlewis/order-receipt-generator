@@ -11,7 +11,7 @@ use App\Model\Entity\Entity;
  */
 interface BaseInterface
 {
-    public function getById(int $id): object;
+    public function getById(string|int $id): object;
 
     public function createEntity(Entity $entity): Entity;
 }

@@ -7,7 +7,7 @@ class ApiResponse
     protected const SERVER_ERROR = "Internal server error";
 
     /**
-     * Return success api response
+     * Return success api response.
      *
      * @param mixed $data
      *
@@ -22,7 +22,7 @@ class ApiResponse
     }
 
     /**
-     * Return error api response
+     * Return error api response.
      *
      * @param mixed $data
      *
@@ -37,7 +37,7 @@ class ApiResponse
     }
 
     /**
-     * Return internal server error api response
+     * Return internal server error api response.
      *
      * @return array
      */

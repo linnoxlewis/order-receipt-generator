@@ -77,11 +77,12 @@ class OrderSubscriber implements EventSubscriberInterface
     {
         try {
             $order = $event->getOrder();
-            $check = new Check($order);
+            $check = new Check();
+            $check->setOrder($order);
             $this->checkRepository->createEntity($check);
             $this->logger->info('Create check' . $check->getId()
                 . 'for order' . $order->getId());
-            $this->messageBus->dispatch(new PrintingCheck($check));
+            $this->messageBus->dispatch(new PrintingCheck($check->getId()));
         } catch (\Throwable $ex) {
             $this->logger->error('Error creating check: ' . $ex->getMessage());
         }

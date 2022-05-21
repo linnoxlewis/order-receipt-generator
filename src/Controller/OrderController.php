@@ -8,13 +8,14 @@ use App\Manager\Interface\OrderManagerInterface;
 use App\Model\Form\Order;
 use App\Model\Form\OrderList;
 use Exception;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Controller for order
+ * Controller for order.
  *
  * Class OrderController
  *
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class OrderController extends BaseApiController
 {
     /**
-     * Order manager
+     * Order manager.
      *
      * @var OrderManagerInterface
      */
@@ -42,7 +43,7 @@ class OrderController extends BaseApiController
     }
 
     /**
-     * Endpoint for get orders list
+     * Endpoint for get orders list.
      *
      * @param Request $request
      *
@@ -99,10 +100,9 @@ class OrderController extends BaseApiController
             return $this->json(ApiResponse::successResponse([
                 "id" => $order->getId(),
             ]));
-        } catch (ManagerException $ex) {
+        } catch (ManagerException|BadRequestException $ex) {
             return $this->json(ApiResponse::badRequestResponse($ex->getMessage()), 400);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return $this->json(ApiResponse::serverErrorResponse(), 500);
         }
     }

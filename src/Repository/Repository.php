@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Model\Entity\Entity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Check repository model
@@ -15,6 +16,7 @@ use Doctrine\ORM\EntityNotFoundException;
  */
 abstract class Repository extends ServiceEntityRepository
 {
+
     /**
      * Get entity by id
      *
@@ -24,14 +26,19 @@ abstract class Repository extends ServiceEntityRepository
      *
      * @throws EntityNotFoundException
      */
-    public function getById(int|string $id): object
+    public function getById(string|int $id): object
     {
-        $entity = $this->_em->find($this->getEntityName(), $id);
-        if (empty($entity)) {
-            throw new EntityNotFoundException("Entity not found");
+        try {
+            var_dump("ID:" . $id);
+            $entity = $this->_em->find($this->getEntityName(), $id);
+            if (empty($entity)) {
+                throw new EntityNotFoundException("Entity not found");
+            }
+            var_dump($entity->getId());
+            return $entity;
+        } catch (\Throwable $ex) {
+            throw new \Exception("Ex:" . $ex);
         }
-
-        return $entity;
     }
 
     /**

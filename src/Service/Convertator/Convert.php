@@ -3,7 +3,6 @@
 namespace App\Service\Convertator;
 
 use App\Service\Convertator\Interface\ConvertInterface;
-use Dompdf\Dompdf;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -13,15 +12,8 @@ use Psr\Log\LoggerInterface;
  *
  * @package App\Service\Convertator
  */
-class Convert implements ConvertInterface
+abstract class Convert implements ConvertInterface
 {
-    /**
-     * Base convert server.
-     *
-     * @var Dompdf
-     */
-    protected Dompdf $htmlPdfService;
-
     /**
      * data to pdf.
      *
@@ -34,16 +26,16 @@ class Convert implements ConvertInterface
      */
     protected string $webDir;
 
+    /**
+     * @var LoggerInterface
+     */
     protected LoggerInterface $logger;
 
     /**
      * Convert constructor.
      */
-    public function __construct(string $webDir,
-                                Dompdf $htmlPdfService,
-                                LoggerInterface $logger)
+    public function __construct(string $webDir, LoggerInterface $logger)
     {
-        $this->htmlPdfService = $htmlPdfService;
         $this->webDir = $webDir;
         $this->logger = $logger;
     }
@@ -82,11 +74,7 @@ class Convert implements ConvertInterface
     public function toPdf(string $pdfName): bool
     {
         try {
-            $this->htmlPdfService->loadHtml($this->data);
-            $this->htmlPdfService->setPaper('A4', 'landscape');
-            $this->htmlPdfService->render();
-
-            $pdfFile = $this->htmlPdfService->output();
+            $pdfFile = $this->createPdf();
             file_put_contents($this->webDir . '/' . $pdfName . '.pdf', $pdfFile);
 
             return true;
@@ -96,4 +84,6 @@ class Convert implements ConvertInterface
             return false;
         }
     }
+
+    abstract function createPdf(): string;
 }

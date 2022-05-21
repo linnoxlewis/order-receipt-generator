@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @ORM\Table(name="`order`")
  * @ORM\HasLifecycleCallbacks()
  */
-class Order extends Entity
+class Order extends Entity implements EntityInterface
 {
     /**
      * @ORM\Id()
@@ -73,7 +73,7 @@ class Order extends Entity
      */
     public function setPrinterId(int $id): static
     {
-        $this->printerId= $id;
+        $this->printerId = $id;
 
         return $this;
     }

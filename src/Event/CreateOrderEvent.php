@@ -21,7 +21,7 @@ class CreateOrderEvent extends Event
     public const NAME = 'order.create';
 
     /**
-     * Order
+     * Order entity.
      *
      * @var Order
      */
@@ -38,7 +38,7 @@ class CreateOrderEvent extends Event
     }
 
     /**
-     * Get order entity
+     * Get order entity.
      *
      * @return Order
      */

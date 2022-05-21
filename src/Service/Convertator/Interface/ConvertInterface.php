@@ -9,4 +9,6 @@ namespace App\Service\Convertator\Interface;
 interface ConvertInterface
 {
     public function toPdf(string $pdfName);
+
+    public function setData(string $data): static;
 }
