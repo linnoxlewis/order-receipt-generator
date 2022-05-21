@@ -3,7 +3,7 @@
 namespace App\Model\Enum;
 
 /**
- * Check statuses class
+ * Check statuses class.
  *
  * Class CheckStatus
  *
@@ -33,7 +33,7 @@ class CheckStatus extends Enum
    public const STATUS_PRINTING_DONE = 2;
 
     /**
-     * Get types list
+     * Get types list.
      *
      * @return int[]
      */

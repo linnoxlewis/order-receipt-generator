@@ -3,12 +3,13 @@
 namespace App\Repository;
 
 use App\Model\Entity\Entity;
+use App\Model\Entity\EntityInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
-use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Check repository model
+ * Check repository model.
  *
  * Class CheckRepository
  *
@@ -16,25 +17,32 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Repository extends ServiceEntityRepository
 {
-
     /**
-     * Get entity by id
+     * CheckRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, $this->getEntityClass());
+    }
+    /**
+     * Get entity by id.
      *
      * @param int|string $id entity id
      *
      * @return object
      *
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException|\Exception
      */
     public function getById(string|int $id): object
     {
         try {
-            var_dump("ID:" . $id);
             $entity = $this->_em->find($this->getEntityName(), $id);
             if (empty($entity)) {
                 throw new EntityNotFoundException("Entity not found");
             }
-            var_dump($entity->getId());
+
             return $entity;
         } catch (\Throwable $ex) {
             throw new \Exception("Ex:" . $ex);
@@ -42,17 +50,24 @@ abstract class Repository extends ServiceEntityRepository
     }
 
     /**
-     * Create entity model
+     * Create entity model.
      *
      * @param Entity $entity model
      *
      * @return Entity
      */
-    public function createEntity(Entity $entity): Entity
+    public function createEntity(EntityInterface $entity): Entity
     {
         $this->_em->persist($entity);
         $this->_em->flush();
 
         return $entity;
     }
+
+    /**
+     * Get entity class.
+     *
+     * @return string
+     */
+    abstract protected function getEntityClass(): string;
 }

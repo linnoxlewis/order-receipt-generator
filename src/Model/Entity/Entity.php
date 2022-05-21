@@ -5,14 +5,14 @@ namespace App\Model\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Base entity
+ * Base entity.
  *
- * Class Entity
+ * Class Entity.
  *
  * @package App\Model\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-abstract class Entity
+abstract class Entity implements EntityInterface
 {
     /**
      * @ORM\Column(name="created_at",type="datetime",nullable=true)
@@ -51,9 +51,9 @@ abstract class Entity
     /**
      * Get check create date.
      *
-     * @return string|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?string
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }

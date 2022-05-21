@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Form for order request
+ * Form for order request.
  *
  * Class Order
  *
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Order
 {
     /**
-     * OrderInfo
+     * OrderInfo.
      *
      * @Assert\NotBlank
      * @Assert\Json(
@@ -26,7 +26,7 @@ class Order
     protected $info;
 
     /**
-     * Printer id
+     * Printer id.
      *
      * @Assert\NotBlank()
      * @assert\Type(type="int")
@@ -36,7 +36,7 @@ class Order
     protected $printerId;
 
     /**
-     * Order total amount
+     * Order total amount.
      *
      * @Assert\NotBlank()
      * @assert\Type(type="int")
@@ -59,7 +59,7 @@ class Order
     }
 
     /**
-     * Get order datail in json format
+     * Get order detail in json format.
      *
      * @return string
      */
@@ -69,7 +69,7 @@ class Order
     }
 
     /**
-     * Get order amount
+     * Get order amount.
      *
      * @return int
      */
@@ -79,7 +79,7 @@ class Order
     }
 
     /**
-     * Get order printer id
+     * Get order printer id.
      *
      * @return int
      */
@@ -89,7 +89,7 @@ class Order
     }
 
     /**
-     * Validate correct format order detail
+     * Validate correct format order detail.
      *
      * @param ExecutionContextInterface $context
      * @param $payload

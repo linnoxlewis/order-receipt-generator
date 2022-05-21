@@ -59,7 +59,7 @@ class Serializer
     }
 
     /**
-     * Call base serializer method
+     * Call base serializer method.
      *
      * @param $name
      * @param $arguments

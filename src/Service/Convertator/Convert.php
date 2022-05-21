@@ -85,5 +85,10 @@ abstract class Convert implements ConvertInterface
         }
     }
 
+    /**
+     * Create pdf.
+     *
+     * @return string
+     */
     abstract function createPdf(): string;
 }

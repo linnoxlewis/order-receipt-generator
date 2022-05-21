@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @ORM\Table(name="`check`")
  * @ORM\HasLifecycleCallbacks()
  */
-class Check extends Entity
+class Check extends Entity implements EntityInterface
 {
     /**
      * Check id

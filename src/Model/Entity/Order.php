@@ -40,10 +40,6 @@ class Order extends Entity implements EntityInterface
      */
     private ?Printer $printer;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Model\Entity\Check", inversedBy="check")
-     */
-    private ?Check $check;
 
     private int $printerId;
     /**
@@ -170,30 +166,6 @@ class Order extends Entity implements EntityInterface
     public function setPrinter(Printer $value): static
     {
         $this->printer = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get printer.
-     *
-     * @return Check|null
-     */
-    public function getCheck(): ?Check
-    {
-        return $this->check;
-    }
-
-    /**
-     * Set printer.
-     *
-     * @param Check $value check entity
-     *
-     * @return Order
-     */
-    public function setCheck(Check $value): static
-    {
-        $this->check = $value;
 
         return $this;
     }

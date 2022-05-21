@@ -2,10 +2,10 @@
 
 namespace App\Repository\Interface;
 
-use App\Model\Entity\Entity;
+use App\Model\Entity\EntityInterface;
 
 /**
- * Interface BaseInterface
+ * Interface BaseInterface.
  *
  * @package App\Repository\Interface
  */
@@ -13,5 +13,5 @@ interface BaseInterface
 {
     public function getById(string|int $id): object;
 
-    public function createEntity(Entity $entity): Entity;
+    public function createEntity(EntityInterface $entity): EntityInterface;
 }

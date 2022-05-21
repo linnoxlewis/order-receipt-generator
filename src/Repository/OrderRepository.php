@@ -29,18 +29,28 @@ class OrderRepository extends Repository implements OrderRepositoryInterface
      * Get order list by printer id.
      *
      * @param Printer $printer printer model
-     * @param int     $limit limit
-     * @param int     $offset offset
+     * @param int $limit limit
+     * @param int $offset offset
      *
      * @return Order[]
      */
     public function list($printer, int $limit, int $offset): array
     {
-       return $this->findBy(
+        return $this->findBy(
             ['printer' => $printer],
             null,
-           $limit,
-           $offset -1
+            $limit,
+            $offset - 1
         );
+    }
+
+    /**
+     * Get entity class.
+     *
+     * @return string
+     */
+    protected function getEntityClass(): string
+    {
+        return Order::class;
     }
 }

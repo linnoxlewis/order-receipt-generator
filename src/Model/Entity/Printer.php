@@ -3,7 +3,6 @@
 namespace App\Model\Entity;
 
 use App\Helper\EncryptHelper;
-use App\Repository\PrinterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="`printer`")
  * @ORM\HasLifecycleCallbacks()
  */
-class Printer extends Entity
+class Printer extends Entity implements EntityInterface
 {
     public function __construct()
     {
@@ -153,6 +152,8 @@ class Printer extends Entity
     }
 
     /**
+     * Encrypt apiKey.
+     *
      * @ORM\PrePersist
      */
     public function beforeSave()

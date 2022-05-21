@@ -3,7 +3,7 @@
 namespace App\Model\Enum;
 
 /**
- * Enum printer`s types
+ * Enum printer`s types.
  *
  * Class PrinterTypes
  *
@@ -12,21 +12,21 @@ namespace App\Model\Enum;
 class PrinterTypes extends Enum
 {
     /**
-     * type client printer
+     * type client printer.
      *
      * @var string
      */
     const CLIENT_TYPE = 'client';
 
     /**
-     * type kitchen printer
+     * type kitchen printer.
      *
      * @var string
      */
     const KITCHEN_TYPE = 'kitchen';
 
     /**
-     * Get types list
+     * Get types list.
      *
      * @return string[]
      */

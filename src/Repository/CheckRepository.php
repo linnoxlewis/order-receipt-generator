@@ -6,8 +6,6 @@ use App\Model\Entity\Check;
 use App\Model\Enum\CheckStatus;
 use App\Repository\Interface\CheckRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\Persistence\ManagerRegistry;
-use Psr\Log\LoggerInterface;
 
 /**
  * Check repository model
@@ -18,16 +16,6 @@ use Psr\Log\LoggerInterface;
  */
 class CheckRepository extends Repository implements CheckRepositoryInterface
 {
-    /**
-     * CheckRepository constructor.
-     *
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Check::class);
-    }
-
     /**
      * Update check status
      *
@@ -68,5 +56,15 @@ class CheckRepository extends Repository implements CheckRepositoryInterface
                 'printerId' => $printerId,
                 'status' => CheckStatus::STATUS_PRINTING_DONE
             ])->fetchAllAssociative();
+    }
+
+    /**
+     * Get entity class.
+     *
+     * @return string
+     */
+    protected function getEntityClass(): string
+    {
+        return Check::class;
     }
 }

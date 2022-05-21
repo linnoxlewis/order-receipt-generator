@@ -25,7 +25,7 @@ final class Version20220425084511 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_3C8EAC138D9F6D38 ON "check" (order_id)');
         $this->addSql('COMMENT ON COLUMN "check".id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN "check".order_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE "order" (id UUID NOT NULL, printer_id INT DEFAULT NULL, check_id UUID DEFAULT NULL, info VARCHAR(3000) NOT NULL, amount INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "order" (id UUID NOT NULL, printer_id INT DEFAULT NULL, info VARCHAR(3000) NOT NULL, amount INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F529939846EC494A ON "order" (printer_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_F5299398709385E7 ON "order" (check_id)');
         $this->addSql('COMMENT ON COLUMN "order".id IS \'(DC2Type:uuid)\'');

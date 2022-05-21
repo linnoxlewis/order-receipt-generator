@@ -32,7 +32,7 @@ class DomPdfConvert extends Convert
     }
 
     /**
-     * Create pdf
+     * Create pdf.
      *
      * @return string
      */

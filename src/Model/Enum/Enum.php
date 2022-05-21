@@ -3,7 +3,7 @@
 namespace App\Model\Enum;
 
 /**
- * Base class for enums model
+ * Base class for enums model.
  *
  * Class Enum
  *
